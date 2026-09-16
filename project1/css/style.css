@@ -1,0 +1,167 @@
+/*
+  css/style.css
+  Shared stylesheet for "LUMINA — The Museum of Lost Ideas"
+  Features: responsive layout, glassmorphism, animated gradient blobs, moving grid background,
+  neon typography, CSS flip cards, timeline, custom buttons, hover animations.
+  Pure HTML5 + CSS3 — no JavaScript.
+*/
+
+:root{
+  --bg:#081021;
+  --surface: rgba(255,255,255,0.06);
+  --glass-outline: rgba(255,255,255,0.06);
+  --accent-1: #7afcff; /* cyan */
+  --accent-2: #7a6bff; /* purple */
+  --accent-3: #ff6b9a; /* pink */
+  --muted: rgba(255,255,255,0.65);
+  --glass-blur: 10px;
+  --radius: 14px;
+  --container-max: 1200px;
+}
+
+/* Basic reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background:linear-gradient(180deg,var(--bg) 0%, #04101a 100%);
+  color:#eaf6ff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+
+.container{
+  width:clamp(320px,92%,var(--container-max));
+  margin:0 auto;
+  padding:2rem 0;
+}
+
+/* Moving grid background: subtle animated pattern */
+.bg-grid{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px;
+  opacity:0.6;
+  transform:translateZ(0);
+  animation: slideGrid 20s linear infinite;
+}
+@keyframes slideGrid{from{background-position:0 0,0 0}to{background-position:960px 0,0 960px}}
+
+/* Animated gradient blobs (decorative) */
+.blobs{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none}
+.blob{
+  position:absolute; width:35vmax; height:35vmax; filter:blur(40px) saturate(1.2);
+  transform-origin:center; opacity:0.5;
+}
+.blob.b1{left:-10vmax; top:-10vmax; background:radial-gradient(circle at 20% 30%, #ff9bd6, #8233ff 50%, transparent 70%); animation: blob1 14s ease-in-out infinite}
+.blob.b2{right:-8vmax; bottom:-6vmax; background:radial-gradient(circle at 30% 30%, #6ef7ff, #6bffb3 45%, transparent 70%); animation: blob2 18s ease-in-out infinite}
+.blob.b3{left:30%; top:40%; background:radial-gradient(circle at 30% 40%, #ffd86b, #ff6b6b 40%, transparent 70%); animation: blob3 22s ease-in-out infinite}
+@keyframes blob1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,4vmax) scale(1.12)}100%{transform:translate(0,0) scale(1)}}
+@keyframes blob2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-6vmax,-4vmax) scale(1.08)}100%{transform:translate(0,0) scale(1)}}
+@keyframes blob3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(4vmax,-5vmax) scale(0.96)}100%{transform:translate(0,0) scale(1)}}
+
+/* Glass utility: frosted card effect */
+.glass{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: var(--radius);
+  border:1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 8px 30px rgba(3,7,18,0.6);
+}
+
+/* Header */
+.site-header{position:sticky; top:18px; z-index:5; margin:1rem auto; padding:0.5rem}
+.header-inner{display:flex; gap:1rem; align-items:center; justify-content:space-between}
+.brand{font-weight:800; letter-spacing:3px; color:var(--accent-1); text-decoration:none; font-size:1.1rem}
+
+.main-nav{display:flex; gap:1rem}
+.nav-link{color:var(--muted); text-decoration:none; padding:0.4rem 0.6rem; border-radius:8px; transition:all .25s}
+.nav-link:hover{color:#fff; transform:translateY(-3px)}
+.nav-link[aria-current="page"]{color:#fff; box-shadow: inset 0 -3px 0 linear-gradient(90deg,var(--accent-1),var(--accent-2));}
+
+/* Hero */
+.hero{padding:6rem 0 4rem; position:relative; z-index:2}
+.hero-inner{display:grid; gap:1.5rem; align-items:center}
+.neon{font-size:clamp(2rem,6vw,5rem); margin:0; font-weight:900; letter-spacing:6px; color:transparent; background:linear-gradient(90deg,var(--accent-1),var(--accent-2),var(--accent-3)); -webkit-background-clip:text; background-clip:text; text-shadow: 0 0 18px rgba(124,214,255,0.12), 0 0 30px rgba(160,120,255,0.04)}
+.lead{max-width:72ch; color:var(--muted); font-size:1.05rem}
+.hero-cta{display:flex; gap:1rem; margin-top:1rem}
+
+/* Buttons */
+.btn{display:inline-block; text-decoration:none; color:inherit; padding:0.7rem 1rem; border-radius:10px; border:1px solid transparent; transition:all .25s; font-weight:600}
+.btn-primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:#04101a; box-shadow: 0 8px 30px rgba(122,111,255,0.12);}
+.btn-outline{border:1px solid rgba(255,255,255,0.08); color:var(--muted); background:transparent}
+.btn.small{padding:0.4rem 0.6rem; font-size:0.9rem}
+.btn:hover{transform:translateY(-4px); filter:brightness(1.04)}
+
+/* Intro / features */
+.intro{display:grid; gap:1.5rem; grid-template-columns: 1fr; margin-top:1rem}
+.feature{padding:1.25rem}
+
+/* Preview flip cards */
+.preview-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:1rem}
+.flip-card{position:relative; perspective:1200px; min-height:180px}
+.flip-card .card-face{position:relative; border-radius:12px; overflow:hidden; padding:1rem; display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start}
+.flip-card .card-front{background:linear-gradient(135deg,#223 0%, #334 60%);}
+.flip-card .card-back{position:absolute; inset:0; transform:rotateY(180deg); backface-visibility:hidden; display:flex; gap:1rem; justify-content:flex-start; align-items:flex-end}
+.flip-card .card-face{transform-style:preserve-3d}
+.flip-card{transition:transform .45s}
+.flip-card:hover{transform:translateY(-6px)}
+
+/* Card effect for gallery items uses a slightly different layout */
+.grid-gallery{display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem}
+.gallery-item{height:260px; border-radius:14px; overflow:hidden; position:relative; perspective:1200px}
+.gallery-item .card-face{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:1.25rem; color: #04101a;}
+.gallery-item .card-front{color:#04101a;}
+.gallery-item .card-back{background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75)); color:#eaf6ff; transform:rotateY(180deg); padding:1.25rem}
+.gallery-item .card-face{backface-visibility:hidden; border-radius:14px}
+.gallery-item.flipped{transform:rotateY(180deg)}
+.gallery-item:hover .card-front{transform:rotateY(180deg);}
+.gallery-item:hover .card-back{transform:rotateY(0deg)}
+
+/* Use transform for a 3D flip on hover */
+.gallery-item .card-front, .gallery-item .card-back{transition:transform .8s cubic-bezier(.2,.8,.2,1); transform-origin:center}
+.gallery-item .card-front{transform:rotateY(0deg)}
+.gallery-item .card-back{transform:rotateY(-180deg)}
+.gallery-item:hover .card-front{transform:rotateY(180deg)}
+.gallery-item:hover .card-back{transform:rotateY(0deg)}
+
+.muted{color:rgba(3,7,18,0.5); font-weight:700}
+
+/* Timeline */
+.timeline{list-style:none; margin:1rem 0; padding:0; position:relative}
+.timeline li{position:relative; padding:1.25rem 1rem 1.25rem 5rem; margin-bottom:1rem; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03)}
+.timeline time{position:absolute; left:1rem; top:1.25rem; font-weight:700; color:var(--muted);}
+.timeline:before{content:''; position:absolute; left:2.6rem; top:0; bottom:0; width:3px; background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); opacity:0.3; border-radius:3px}
+
+/* Journal entries */
+.journal-list{display:grid; gap:1rem}
+.journal-entry{padding:1.25rem}
+.journal-entry header h2{margin:0 0 0.5rem 0}
+.meta{color:var(--muted); font-size:0.9rem}
+
+/* Footer */
+.site-footer{margin-top:3rem; padding:1rem 0}
+.footer-inner{display:flex; gap:1rem; justify-content:space-between; align-items:center}
+.foot-nav a{color:var(--muted); text-decoration:none; margin-left:0.5rem}
+
+/* Responsive adjustments */
+@media (min-width:760px){
+  .intro{grid-template-columns: 1fr 1fr}
+  .header-inner{padding:0.5rem 1rem}
+  .hero-inner{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1024px){
+  .hero-inner{grid-template-columns:1fr 1fr; align-items:center}
+}
+
+/* Accessibility: focus states */
+a:focus{outline:2px dashed var(--accent-1); outline-offset:3px}
+
+/* Small helpers */
+.small{font-size:0.9rem}
+
+/* End of stylesheet */
